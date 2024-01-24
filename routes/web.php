@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [studentController::class , 'index'])->name('product.index');
-Route::get('student/create', [studentController::class , 'create'])->name('product.create');
-// Route::any('student/store', [studentController::class , 'store'])->name('product.store');
-// Route::get('student/{id}/edit', [studentController::class , 'edit'])->name('product.edit');
-// Route::delete('student/{id}/delete', [studentController::class , 'delete'])->name('product.delete');
+Route::post('/addnewStudent', [studentController::class ,'form'])->name('student.index');
+// Route::get('/add-event', [App\Http\Controllers\studentController::class , 'create'])->name('product.create');
+Route::get('/', function () {return view('form');})->name('student.form');
+// Route::post('/add-student', [App\Http\Controllers\studentController::class , 'addStudent'])->name('student.addStudent');

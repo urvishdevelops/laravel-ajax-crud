@@ -8,52 +8,28 @@ use Response;
 
 class studentController extends Controller
 {
-    public function index()
+    public function form(Request $request)
     {
-        $entireTable = student::all();
-        return view('index', ['student' => $entireTable]);
+        echo '<pre>';
+        print_r($_FILES);
+        die;
+       return response()->json(["res"=>"yay!"]);
     }
-    public function store(Request $request)
+    public function create()
     {
-
-        $validator = $request->validate(
-            [
-                'name' => 'required',
-                'course' => 'required',
-                'image' => 'required'
-            ]
-        );
-
-        $file = $request->file('image')->extension();
-
-        $imageName = time() . '.' . $file;
-
-        $request->file('image')->move(public_path("studentImg"), $imageName);
-
-
-        $studData = new student;
-
-        $studData->name = $request->name;
-        $studData->course = $request->course;
-        $studData->image = $imageName;
-
-        $studData->save();
-
-        // if ($validator->fails()) {
-        //     return response()->json(['msg' => $validator->errors()->toArray()]);
-        // } else {
-        //     try {
-        //         return response()->json(['success' => true, 'msg' => 'student data added successfully!']);
-        //     } catch (\Exception $e) {
-        //         return response()->json(['success' => false, 'msg' => $e->getMessage()]);
-        //     }
-        // }
-
+        return view('create');
     }
-    public function edit()
+    public function store(Request $request )
     {
-
-        print_r("Yo edit!");
+        $request->validate([
+            'name' => 'required | max:255',
+            'course' => 'required | max:255'
+        ]);
+    }
+   
+    public function edit($id)
+    {
+      return response()->json($id);
 
     }
     public function update()
