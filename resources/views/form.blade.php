@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <title>LaraCRUD</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -22,24 +22,23 @@
             </div>
         </div>
     </nav>
-
+   
     <div class="container mt-5 col-6 md-5">
         <div class="card p-5">
             <div class="card-body">
-                <form onsubmit="return false" method="POST"  id="my-form"
-                    enctype="multipart/form-data">
+                <form onsubmit="return false" method="POST" id="my-form" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="hidden_id" id="hidden_id">
                     <div class="mb-3">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" name="name" id="name"
-                            placeholder="Enter name" value="{{ old('name') }}">
+                            placeholder="Enter name">
                     </div>
 
                     <div class="mb-3">
                         <label for="course">Course</label>
                         <input type="text" class="form-control" name="course" id="course"
-                            placeholder="Enter course" value="{{ old('course') }}">
+                            placeholder="Enter course">
                     </div>
 
                     <div class="mb-3">
@@ -64,19 +63,22 @@
         $("#my-form").submit(function(e) {
             e.preventDefault();
 
-            
             $.ajax({
                 type: "POST",
-                url:  "{{route('student.index')}}",
-                data: $("#my-form").serialize(),
-                
+                url: "{{ route('student.index') }}",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
                 success: function(data) {
-                    // $('#output').text(data);
-                    alert(data.res);
+                    console.log(data.id);
+                    $('#output').text(data.res)
+                    $('#my-form')[0].reset();
                 },
+
                 error: function(e) {
-                            // $('#output').text(data.res);
-                            // $('#submit').prop("disabled", false);
+                    $('#output').text(data.res);
+                    $('#submit').prop("disabled", false);
                     console.log("error", e);
                 }
             })

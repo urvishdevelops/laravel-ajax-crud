@@ -14,7 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/addnewStudent', [studentController::class ,'form'])->name('student.index');
+Route::post('/addnewStudent', [studentController::class, 'form'])->name('student.index');
 // Route::get('/add-event', [App\Http\Controllers\studentController::class , 'create'])->name('product.create');
-Route::get('/', function () {return view('form');})->name('student.form');
-// Route::post('/add-student', [App\Http\Controllers\studentController::class , 'addStudent'])->name('student.addStudent');
+Route::get('/', function () {
+    return view('form');
+})->name('student.form');
+
+Route::get('/studentdata', [studentController::class, 'studentdata'])->name('student.studentdata');
+Route::get('/allstudentdata', function () {
+    return view('students');
+})->name('student.allstudentdata');
+
+Route::get('edit/{id?}', [studentController::class, 'form'])->name('student.edit');
